@@ -38,7 +38,7 @@ function testTransformers(mixin, testCases) {
         ctx.mixin(mixin);
         const code = toExpression(source);
         t.equals(
-          toCode(mixin[transformer](code, ctx)),
+          toCode(mixin[transformer](ctx, code)),
           expected,
           name
         );

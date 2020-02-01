@@ -18,7 +18,7 @@ mixinJsFuck.setup = function (transformer) {
   transformer.hook('MemberExpression', transformDateStringGMT);
 };
 
-function castNewDateToValue(block, ctx) {
+function castNewDateToValue(ctx, block) {
   if (sigMatch(block, sigNewDate)) {
     if (block.arguments.length > 0) {
       const args = ctx.castAllToLiteral(block.arguments);
@@ -37,7 +37,7 @@ const GMTMapping = new Map([
   [false, 'T'],
 ]);
 
-function transformDateStringGMT(block, ctx) {
+function transformDateStringGMT(ctx, block) {
   if (sigMatch(block, sigGetCharFromDateString)) {
     const index = parseInt(getIn(block, 'property.value'));
     if (index === 30) {

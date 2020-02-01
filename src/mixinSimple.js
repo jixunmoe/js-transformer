@@ -45,7 +45,7 @@ mixinSimple.setup = function (transformer) {
   transformer.hook("UpdateExpression", transform1OpExp);
 };
 
-function transformStaticConcatExpression(block, ctx) {
+function transformStaticConcatExpression(ctx, block) {
   if (sigMatch(block, sigStaticArrayConcat)) {
     const srcElements = getIn(block, 'callee.object.elements');
     const srcArray = ctx.castAllToLiteral(srcElements);
@@ -67,7 +67,7 @@ const allowedSandboxFunction = new Map([
   ['unescape', unescape],
 ]);
 
-function transformAllowedSandboxFunctionCall(block, ctx) {
+function transformAllowedSandboxFunctionCall(ctx, block) {
   const calleeType = getBlockType(block.callee);
   if (calleeType === 'Identifier') {
     const fn = block.callee.name;
@@ -102,7 +102,7 @@ function transformAllowedSandboxFunctionCall(block, ctx) {
   return block;
 }
 
-function transformLitToStringCall(block, ctx) {
+function transformLitToStringCall(ctx, block) {
   if (sigMatch(block, sigLitToStringCall)) {
     const lits = ctx.castAllToLiteral([block.callee.object, block.arguments]);
     if (lits) {
@@ -119,7 +119,7 @@ function transformLitToStringCall(block, ctx) {
   return block;
 }
 
-function transformIifeReturnExpression(block) {
+function transformIifeReturnExpression(ctx, block) {
   if (sigMatch(block, sigIifeReturn)) {
     return getIn(block, 'callee.body.body.0.argument');
   }
@@ -127,7 +127,7 @@ function transformIifeReturnExpression(block) {
   return block;
 }
 
-function transformArrayConstructorCallToFunction(block, ctx) {
+function transformArrayConstructorCallToFunction(ctx, block) {
   if (sigMatch(block, sigArrayConstructorCallToFunction)) {
     const arrayFn = getIn(block, 'callee.object.property.name');
     if (typeof Array.prototype[arrayFn] === 'function') {
@@ -145,7 +145,7 @@ function transformArrayConstructorCallToFunction(block, ctx) {
   return block;
 }
 
-function transformStringAccessToDotAccess(block) {
+function transformStringAccessToDotAccess(ctx, block) {
   // a['xyz'] => a.xyz
   if (isLiteral(block.property) && isSafeString(block.property.value)) {
     block.computed = false;
@@ -154,7 +154,7 @@ function transformStringAccessToDotAccess(block) {
   return block;
 }
 
-function transformConstantIndexAccessToConstant(block, ctx) {
+function transformConstantIndexAccessToConstant(ctx, block) {
   let [propOk, property] = ctx.getPropertyName(block);
 
   // 'abc'[1] => 'b'
@@ -172,7 +172,7 @@ function transformConstantIndexAccessToConstant(block, ctx) {
 }
 
 // BinaryExpression and LogicalExpression
-function transform2OpExp(block, ctx) {
+function transform2OpExp(ctx, block) {
   const lits = ctx.castAllToLiteral([block.left, block.right]);
 
   if (lits) {
@@ -185,7 +185,7 @@ function transform2OpExp(block, ctx) {
 }
 
 // UnaryExpression and UpdateExpression
-function transform1OpExp(block, ctx) {
+function transform1OpExp(ctx, block) {
   const [lit, arg] = ctx.castToLiteral(block.argument);
   if (lit) {
     const result = mixinSimple.staticOp1[block.operator](arg);

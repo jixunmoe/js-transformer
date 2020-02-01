@@ -6,11 +6,11 @@ const idMap = new Map([
 ]);
 
 /**
- * @param block
  * @param {AstTransformer} ctx
- * @returns {*[][]|(boolean|*)[]|*[]|(boolean|{})[]|boolean[]}
+ * @param block
+ * @returns {[Boolean, *]}
  */
-function castToLiteral(block, ctx) {
+function castToLiteral(ctx, block) {
   if (Array.isArray(block)) {
     const result = ctx.castAllToLiteral(block);
     return [result, result];
@@ -44,7 +44,7 @@ function castToLiteral(block, ctx) {
         return [false];
       }
 
-      const [objOk, object] = castToLiteral(block.object, ctx);
+      const [objOk, object] = castToLiteral(ctx, block.object);
       if (objOk) {
         return [true, object[property]];
       }

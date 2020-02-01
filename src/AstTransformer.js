@@ -76,7 +76,7 @@ class AstTransformer extends Transformer {
   castToLiteral = (block) => {
     const casters = this.getHooks('castToLiteral');
     for (const caster of casters) {
-      const result = caster(block, this);
+      const result = caster(this, block);
       if (result[0]) {
         return result;
       }

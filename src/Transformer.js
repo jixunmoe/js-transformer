@@ -57,7 +57,7 @@ class Transformer {
       const hooks = this.getHooks(type);
 
       for (const hook of hooks) {
-        block = hook(block, this);
+        block = hook(this, block);
 
         // Block removed.
         if (!block) return block;
