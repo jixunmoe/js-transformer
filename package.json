@@ -1,0 +1,17 @@
+{
+  "name": "js-transformer",
+  "version": "1.0.0",
+  "description": "Yet Another JavaScript AST Transformer using recast.",
+  "main": "src/AstTransformer.js",
+  "scripts": {
+    "test": "tape test/**/*.test.js"
+  },
+  "author": "Jixun",
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.13.0"
+  },
+  "dependencies": {
+    "recast": "^0.18.5"
+  }
+}
