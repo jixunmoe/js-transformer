@@ -6,6 +6,7 @@ const {
 } = require('./utils/checks');
 
 const castToLiteral = require('./utils/castToLiteral');
+const iterHooks = require('./utils/iterHooks');
 
 const Transformer = require('./Transformer');
 
@@ -74,17 +75,8 @@ class AstTransformer extends Transformer {
     return this.castToLiteral(block.property);
   };
 
-  castToLiteral = (block) => {
-    const casters = this.getHooks('castToLiteral');
-    for (const caster of casters) {
-      const result = caster(this, block);
-      if (result[0]) {
-        return result;
-      }
-    }
-
-    return [false];
-  };
+  iterHooks = (type, ...args) => iterHooks(this.getHooks(type), this, ...args);
+  castToLiteral = block => this.iterHooks('castToLiteral', block);
 
   castAllToLiteral(blocks) {
     const results = Array.from(blocks, this.castToLiteral);
