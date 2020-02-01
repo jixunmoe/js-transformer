@@ -2,8 +2,8 @@ const test = require('tape');
 const fs = require('fs');
 
 const testTransformers = require('./testTransformers');
-const AstTransformer = require('../src/AstTransformer');
-const mixinJsFuck = require('../src/mixinJsFuck');
+const AstTransformer = require('../AstTransformer');
+const mixinJsFuck = require('../mixinJsFuck');
 
 test('jsfuck', async t => {
   const cases = [
@@ -28,17 +28,17 @@ const testCases = new Map([
     source: `(NaN + Date())["30"]`,
     expected: `"G"`
   }, {
-    name: "true + Date => M",
+    name: 'true + Date => "M"',
     source: `(true + Date())["30"]`,
     expected: `"M"`
   }, {
-    name: "false + Date => T",
+    name: 'false + Date => "T"',
     source: `(false + Date())["30"]`,
     expected: `"T"`
   }]],
 ]);
 
 test('mixinJsFuck#transformers', t => {
-  testTransformers(mixinJsFuck, testCases);
+  testTransformers(t, mixinJsFuck, testCases);
   t.end();
 });

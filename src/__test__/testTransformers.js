@@ -21,29 +21,23 @@
 // ]);
 
 const recast = require('recast');
-const AstTransformer = require('../src/AstTransformer');
-
-const test = require('tape');
+const AstTransformer = require('../AstTransformer');
 
 const toCode = block => recast.print(block).code.replace(/\s+/g, ' ');
 const toExpression = code => recast.parse(code).program.body[0].expression;
 
-function testTransformers(mixin, testCases) {
+function testTransformers(t, mixin, testCases) {
   for (const [transformer, transformCases] of testCases.entries()) {
-    test(`${mixin.name}.${transformer}`, t => {
-      t.plan(transformCases.length);
-
-      for (const {name, source, expected} of transformCases) {
-        const ctx = new AstTransformer('');
-        ctx.mixin(mixin);
-        const code = toExpression(source);
-        t.equals(
-          toCode(mixin[transformer](ctx, code)),
-          expected,
-          name
-        );
-      }
-    });
+    for (const {name, source, expected} of transformCases) {
+      const ctx = new AstTransformer('');
+      ctx.mixin(mixin);
+      const code = toExpression(source);
+      t.equals(
+        toCode(mixin[transformer](ctx, code)),
+        expected,
+        name
+      );
+    }
   }
 }
 

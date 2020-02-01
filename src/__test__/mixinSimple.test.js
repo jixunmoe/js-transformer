@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const mixinSimple = require('../src/mixinSimple');
+const mixinSimple = require('../mixinSimple');
 const testTransformers = require('./testTransformers');
 
 const testCases = new Map([
@@ -20,6 +20,6 @@ const testCases = new Map([
 ]);
 
 test('mixinSimple#transformers', t => {
-  testTransformers(mixinSimple, testCases);
+  testTransformers(t, mixinSimple, testCases);
   t.end();
 });

@@ -4,7 +4,7 @@
   "description": "Yet Another JavaScript AST Transformer using recast.",
   "main": "src/AstTransformer.js",
   "scripts": {
-    "test": "tape test/**/*.test.js"
+    "test": "tape src/**/*.test.js"
   },
   "author": "Jixun",
   "license": "MIT",
