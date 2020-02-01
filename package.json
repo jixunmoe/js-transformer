@@ -9,6 +9,7 @@
   "author": "Jixun",
   "license": "MIT",
   "devDependencies": {
+    "@types/tape": "^4.2.33",
     "tape": "^4.13.0"
   },
   "dependencies": {
