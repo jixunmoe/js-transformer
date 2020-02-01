@@ -49,15 +49,15 @@ class Transformer {
     fns.push(fn);
   }
 
-  transformBlock = (block) => {
+  transformBlock(ctx, block) {
     while (block && block.type) {
       // while true;
       let typeChanged = false;
       const type = getBlockType(block);
-      const hooks = this.getHooks(type);
+      const hooks = ctx.getHooks(type);
 
       for (const hook of hooks) {
-        block = hook(this, block);
+        block = hook(ctx, block);
 
         // Block removed.
         if (!block) return block;

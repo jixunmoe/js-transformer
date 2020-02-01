@@ -18,22 +18,23 @@ class AstTransformer extends Transformer {
   }
 
   async transform() {
-    this.ast.program = await this.walk(this.ast.program);
+    this.ast.program = await this.walk(this.ast.program, this.transformBlock);
   }
 
   /**
    * Walk through the block.
    * @param {Object} block to transform
+   * @param {Function} transformBlockFn
    * @returns {Promise<Object>} Transformed block
    */
-  walk = (block) => {
+  walk(block, transformBlockFn) {
     let changed = 1;
 
     while(changed) {
       changed = 0;
 
       const lastBlock = block;
-      block = this.transformBlock(block);
+      block = transformBlockFn(this, block);
       changed |= !shallowEqual(lastBlock, block);
       if (changed) {
         continue;
@@ -45,11 +46,11 @@ class AstTransformer extends Transformer {
             const val = block[key];
 
             if (Array.isArray(val)) {
-              const newVal = Array.from(block[key], this.walk);
+              const newVal = Array.from(block[key], v => this.walk(v, transformBlockFn));
               changed |= !shallowEqual(val, newVal);
               block[key] = newVal;
             } else if (val && val.type) {
-              const newVal = this.walk(val);
+              const newVal = this.walk(val, transformBlockFn);
               changed |= !shallowEqual(val, newVal);
               block[key] = newVal;
             }
