@@ -16,6 +16,9 @@ function sigMatch(toCheck, toMatch, results) {
       }
     } else if (Array.isArray(sigBlock.$or)) {
       return sigBlock.$or.some(sigItem => sigMatch(toCheck, sigItem, results));
+    } else if (sigBlock.name) {
+      results[sigBlock.name] = toCheck;
+      return true;
     }
 
     throw new Error('sigMatch: empty $sig block.');
