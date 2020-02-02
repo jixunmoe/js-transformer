@@ -1,7 +1,7 @@
 const mixinSimple = require('./mixinSimple');
 
-const sigNewDate = require('../sig/jsfuck/sigNewDate');
-const sigGetCharFromDateString = require('../sig/jsfuck/sigGetCharFromDateString');
+const sigNewDate = require('./sig/jsfuck/sigNewDate');
+const sigGetCharFromDateString = require('./sig/jsfuck/sigGetCharFromDateString');
 
 const B = require('../utils/builder');
 const getIn = require('../utils/getIn');

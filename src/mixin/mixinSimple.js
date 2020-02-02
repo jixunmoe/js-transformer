@@ -10,10 +10,10 @@ const {
 const B = require('../utils/builder');
 const getIn = require('../utils/getIn');
 
-const sigIifeReturn = require('../sig/simp/sigIifeReturn');
-const sigLitToStringCall = require('../sig/simp/sigLitToStringCall');
-const sigStaticArrayConcat = require('../sig/simp/sigStaticArrayConcat');
-const sigArrayConstructorCallToFunction = require('../sig/simp/sigArrayConstructorCallToFunction');
+const sigIifeReturn = require('./sig/simp/sigIifeReturn');
+const sigLitToStringCall = require('./sig/simp/sigLitToStringCall');
+const sigStaticArrayConcat = require('./sig/simp/sigStaticArrayConcat');
+const sigArrayConstructorCallToFunction = require('./sig/simp/sigArrayConstructorCallToFunction');
 
 /**
  * Create OpCode Cache Object.
