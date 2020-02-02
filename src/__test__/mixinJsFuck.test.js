@@ -18,7 +18,7 @@ test('jsfuck', async t => {
     const transformer = new AstTransformer(input);
     transformer.mixin(mixinJsFuck);
     await transformer.transform();
-    t.equals(transformer.getCode(), expected, name);
+    t.equals(transformer.getCode().replace(/\r/g, ''), expected.replace(/\r/g, ''), name);
   }
 });
 

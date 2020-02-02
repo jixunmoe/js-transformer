@@ -3,7 +3,7 @@ b/*{set}*/ = 2;
 
 (function() {
   var b/*{init}*/ = 3;
-  v1/*{set}*/ = 1;
+  v1/*{set}*/ = 9;
   v2/*{set}*/ = 3;
 });
 

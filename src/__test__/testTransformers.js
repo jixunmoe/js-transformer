@@ -16,8 +16,8 @@ function testTransformers(t, mixin, file) {
       ctx.mixin(mixin);
       const code = toExpression(source);
       t.equals(
-        toCode(mixin[transformer](ctx, code)),
-        expected,
+        toCode(mixin[transformer](ctx, code)).replace(/\r/g, ''),
+        expected.replace(/\r/g, ''),
         name
       );
     }

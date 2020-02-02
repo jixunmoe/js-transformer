@@ -90,8 +90,11 @@ const scopeFns = {
       case 'CallExpression':
         ctx.annotateScope(scope, block.arguments);
         if (block.callee.type === 'FunctionExpression') {
-          // FIXME: handle iife instead of defer expand.
-          ctx.annotateBlock(scope, block.callee, queue);
+          // FIXME: handle iife arguments passed in.
+          if (block.arguments.length > 0 || block.callee.params.length > 0) {
+            throw new Error('FIXME: handle iffe with arguments');
+          }
+          ctx.annotateScope(scope.inherit(), block.callee.body.body);
         } else {
           ctx.annotateBlock(scope, block.callee, queue);
         }

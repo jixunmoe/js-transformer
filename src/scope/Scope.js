@@ -59,8 +59,9 @@ class Scope {
   }
 
   define(name, value) {
-    this.props.delete(name);
-    this.prop(name).write(value);
+    const prop = new Scope(name, this);
+    this.props.set(name, prop);
+    prop.write(value);
     return this;
   }
 
