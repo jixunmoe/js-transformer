@@ -64,7 +64,14 @@ const sigMatches = [{
       name: 'a',
     }
   },
-  results: { a: { a: 1 } },
+  results: {
+    a: {
+      match: {
+        a: 1
+      },
+      parent: null,
+    }
+  },
 }, {
   name: '$or match',
   success: true,
@@ -120,7 +127,18 @@ const sigMatches = [{
       ]
     }
   },
-  results: { match_b: { c: 1 } },
+  results: {
+    match_b: {
+      match: {
+        c: 1
+      },
+      parent: {
+        b: {
+          c: 1
+        }
+      }
+    },
+  },
 }, {
   name: 'partialArray',
   success: true,
