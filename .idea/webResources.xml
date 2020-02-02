@@ -5,7 +5,6 @@
       <entry url="file://$PROJECT_DIR$">
         <entryData>
           <resourceRoots>
-            <path value="file://$PROJECT_DIR$/src/__test__/__fixture__" />
             <path value="file://$PROJECT_DIR$/src/mixin/__test__/__fixture__" />
           </resourceRoots>
         </entryData>
