@@ -22,23 +22,7 @@ test('jsfuck', async t => {
   }
 });
 
-const testCases = new Map([
-  ['transformDateStringGMT', [{
-    name: 'NaN + Date => "G"',
-    source: `(NaN + Date())["30"]`,
-    expected: `"G"`
-  }, {
-    name: 'true + Date => "M"',
-    source: `(true + Date())["30"]`,
-    expected: `"M"`
-  }, {
-    name: 'false + Date => "T"',
-    source: `(false + Date())["30"]`,
-    expected: `"T"`
-  }]],
-]);
-
 test('mixinJsFuck#transformers', t => {
-  testTransformers(t, mixinJsFuck, testCases);
+  testTransformers(t, mixinJsFuck, __filename);
   t.end();
 });

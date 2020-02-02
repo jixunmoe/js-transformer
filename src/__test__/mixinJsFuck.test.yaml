@@ -1,0 +1,18 @@
+- - transformDateStringGMT
+  - - name: NaN + Date => "G"
+      source: |-
+        (NaN + Date())["30"]
+      expected: |-
+        "G"
+
+    - name: NaN + Date => "M"
+      source: |-
+        (true + Date())["30"]
+      expected: |-
+        "M"
+
+    - name: NaN + Date => "T"
+      source: |-
+        (false + Date())["30"]
+      expected: |-
+        "T"
