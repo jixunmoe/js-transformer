@@ -67,8 +67,10 @@ class AstTransformer extends Transformer {
     return block;
   };
 
-  getCode() {
-    return recast.prettyPrint(this.ast).code;
+  getCode(tabWidth = 4) {
+    return recast.prettyPrint(this.ast, {
+      tabWidth,
+    }).code.replace(/\r/g, '');
   }
 
   getPropertyName = (block) => {
