@@ -10,6 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/tape": "^4.2.33",
+    "js-yaml": "^3.13.1",
     "tape": "^4.13.0"
   },
   "dependencies": {
