@@ -32,8 +32,17 @@ function createFunctionFromString(args, body) {
   return B.functionExpression(null, args, B.blockStatement(codeToBlocks(body)));
 }
 
+function addComment(block, comment) {
+  if (block.comments) {
+    block.comments.push(comment);
+  } else {
+    block.comments = [comment];
+  }
+}
+
 module.exports = {
   ...B,
+  addComment,
   createConstant,
   createIifeFromString,
   createFunctionFromString,
