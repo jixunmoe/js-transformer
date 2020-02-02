@@ -1,4 +1,4 @@
-const sigMatch = require('../sigMatch/sigMatch');
+const { sigMatch } = require('../sigMatch/SigMatch');
 
 const {
   isLiteral,

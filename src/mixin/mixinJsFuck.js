@@ -5,7 +5,7 @@ const sigGetCharFromDateString = require('../sig/jsfuck/sigGetCharFromDateString
 
 const B = require('../utils/builder');
 const getIn = require('../utils/getIn');
-const sigMatch = require('../sigMatch/sigMatch');
+const { sigMatch } = require('../sigMatch/SigMatch');
 
 function mixinJsFuck(transformer) {
   transformer.mixin(mixinJsFuck);
