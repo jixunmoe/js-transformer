@@ -15,5 +15,9 @@
   },
   "dependencies": {
     "recast": "^0.18.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:JixunMoe/js-transformer.git"
   }
 }
