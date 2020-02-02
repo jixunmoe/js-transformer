@@ -1,11 +1,11 @@
 const mixinSimple = require('./mixinSimple');
 
-const sigNewDate = require('./sig/jsfuck/sigNewDate');
-const sigGetCharFromDateString = require('./sig/jsfuck/sigGetCharFromDateString');
+const sigNewDate = require('../sig/jsfuck/sigNewDate');
+const sigGetCharFromDateString = require('../sig/jsfuck/sigGetCharFromDateString');
 
-const B = require('./utils/builder');
-const getIn = require('./utils/getIn');
-const sigMatch = require('./sigMatch/sigMatch');
+const B = require('../utils/builder');
+const getIn = require('../utils/getIn');
+const sigMatch = require('../sigMatch/sigMatch');
 
 function mixinJsFuck(transformer) {
   transformer.mixin(mixinJsFuck);

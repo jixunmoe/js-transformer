@@ -1,7 +1,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const recast = require('recast');
-const AstTransformer = require('../AstTransformer');
+const AstTransformer = require('../../AstTransformer');
 
 const toCode = block => recast.print(block).code.replace(/\s+/g, ' ');
 const toExpression = code => recast.parse(code).program.body[0].expression;

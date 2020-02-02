@@ -6,11 +6,11 @@
  */
 
 const mixinSimple = require('./mixinSimple');
-const mixinProps = require('./utils/mixinProps');
-const Scope = require('./scope/Scope');
-const print = require('./utils/print');
+const mixinProps = require('../utils/mixinProps');
+const Scope = require('../scope/Scope');
+const print = require('../utils/print');
 
-const B = require('./utils/builder');
+const B = require('../utils/builder');
 
 const scopes = Symbol('SCOPES');
 const newScope = Symbol('NEW_SCOPE');

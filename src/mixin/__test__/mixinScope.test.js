@@ -1,7 +1,7 @@
 const test = require('tape');
 const fs = require('fs');
 
-const AstTransformer = require('../AstTransformer');
+const AstTransformer = require('../../AstTransformer');
 const mixinScope = require('../mixinScope');
 
 test('scope mixin', async t => {

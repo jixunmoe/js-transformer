@@ -2,7 +2,7 @@ const test = require('tape');
 const fs = require('fs');
 
 const testTransformers = require('./testTransformers');
-const AstTransformer = require('../AstTransformer');
+const AstTransformer = require('../../AstTransformer');
 const mixinJsFuck = require('../mixinJsFuck');
 
 test('jsfuck', async t => {
