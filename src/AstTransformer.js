@@ -18,8 +18,8 @@ class AstTransformer extends Transformer {
     this.hook('castToLiteral', castToLiteral);
   }
 
-  async transform() {
-    this.ast.program = await this.walk(this.ast.program, this.transformBlock);
+  transform() {
+    this.ast.program = this.walk(this.ast.program, this.transformBlock);
   }
 
   /**
@@ -33,6 +33,10 @@ class AstTransformer extends Transformer {
 
     while(changed) {
       changed = 0;
+
+      if (block instanceof Transformer) {
+        throw new Error('ctx passed in to walk.');
+      }
 
       const lastBlock = block;
       block = transformBlockFn(this, block);
