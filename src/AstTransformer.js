@@ -101,6 +101,6 @@ class AstTransformer extends Transformer {
     return null;
   };
 }
-AstTransformer.ignoreKey = ['loc', 'type', 'comments'];
+AstTransformer.ignoreKey = ['loc', 'type', 'comments', 'original'];
 
 module.exports = AstTransformer;
