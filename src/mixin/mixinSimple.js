@@ -11,6 +11,7 @@ const B = require('../utils/builder');
 const getIn = require('../utils/getIn');
 
 const sigIifeReturn = require('./sig/simp/sigIifeReturn');
+const sigNewFunction = require('./sig/simp/sigNewFunction');
 const sigLitToStringCall = require('./sig/simp/sigLitToStringCall');
 const sigStaticArrayConcat = require('./sig/simp/sigStaticArrayConcat');
 const sigArrayConstructorCallToFunction = require('./sig/simp/sigArrayConstructorCallToFunction');
@@ -29,6 +30,7 @@ function mixinSimple(transformer) {
 }
 
 mixinSimple.setup = function (transformer) {
+  transformer.hook('NewExpression', transformNewFunctionToFunction);
   transformer.hook('MemberExpression', transformStringAccessToDotAccess);
   transformer.hook('MemberExpression', transformConstantIndexAccessToConstant);
   transformer.hook('CallExpression', transformLitToStringCall);
@@ -124,6 +126,22 @@ function transformIifeReturnExpression(ctx, block) {
   return block;
 }
 
+// sigNewFunction
+function transformNewFunctionToFunction(ctx, block) {
+  const results = {};
+  if (sigMatch(block, sigNewFunction, results)) {
+    const args = results.args.match.slice();
+    if (args.length > 0) {
+      const fnBody = args.pop();
+      const [bodyOk, bodyContent] = ctx.castToLiteral(fnBody);
+      if (bodyOk) {
+        return B.createFunctionFromString(args, bodyContent);
+      }
+    }
+  }
+  return block;
+}
+
 function transformArrayConstructorCallToFunction(ctx, block) {
   if (sigMatch(block, sigArrayConstructorCallToFunction)) {
     const arrayFn = getIn(block, 'callee.object.property.name');
@@ -204,6 +222,7 @@ Object.assign(mixinSimple, {
   transform1OpExp,
   transform2OpExp,
   transformStringAccessToDotAccess,
+  transformNewFunctionToFunction,
   transformConstantIndexAccessToConstant,
   transformLitToStringCall,
   transformAllowedSandboxFunctionCall,

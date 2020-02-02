@@ -14,3 +14,11 @@
         [].filter.constructor("return new Date(2011)")
       expected: |-
         function() { return new Date(2011) }
+
+- - transformNewFunctionToFunction
+  - - name: simple "new Function" extraction.
+      source: |-
+        new Function('alert(1); return 1');
+      expected: |-
+        function() { alert(1);return 1 }
+
