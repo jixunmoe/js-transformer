@@ -1,6 +1,6 @@
 // const B = require("recast").types.builders;
 
-const sigMatch = require('./utils/sigMatch');
+const sigMatch = require('./sigMatch/sigMatch');
 
 const sigIifeReturn = require('./sig/simp/sigIifeReturn');
 const sigLitToStringCall = require('./sig/simp/sigLitToStringCall');

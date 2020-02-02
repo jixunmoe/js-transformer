@@ -1,4 +1,4 @@
-const { isObject } = require('./checks');
+const { isObject } = require('../utils/checks');
 
 // Object partial match;
 // Array needs to be deep equal.
