@@ -188,7 +188,12 @@ function transform2OpExp(ctx, block) {
 function transform1OpExp(ctx, block) {
   const [lit, arg] = ctx.castToLiteral(block.argument);
   if (lit) {
-    const result = mixinSimple.staticOp1[block.operator](arg);
+    let result;
+    if (block.prefix) {
+      result = mixinSimple.staticOp1Pre[block.operator](arg);
+    } else {
+      result = mixinSimple.staticOp1Post[block.operator](arg);
+    }
     return B.createConstant(result);
   }
   return block;
@@ -196,7 +201,8 @@ function transform1OpExp(ctx, block) {
 
 
 Object.assign(mixinSimple, {
-  staticOp1: opCache('a', op => `return ${op}a`),
+  staticOp1Pre: opCache('a', op => `return ${op}a`),
+  staticOp1Post: opCache('a', op => `return a${op}`),
   staticOp2: opCache('ab', op => `return a${op}b`),
   transform1OpExp,
   transform2OpExp,
