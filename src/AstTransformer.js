@@ -16,6 +16,7 @@ class AstTransformer extends Transformer {
 
     this.ast = recast.parse(input);
     this.hook('castToLiteral', castToLiteral);
+    this.hook('WalkArray', Transformer.noopHook);
   }
 
   transform() {
@@ -48,10 +49,18 @@ class AstTransformer extends Transformer {
       if (block) {
         for (const key in block) {
           if (block.hasOwnProperty(key) && !AstTransformer.ignoreKey.includes(key)) {
-            const val = block[key];
+            let val = block[key];
 
             if (Array.isArray(val)) {
-              const newVal = Array.from(block[key], v => this.walk(v, transformBlockFn));
+              while (true) {
+                const [arrOk, array] = this.iterHooks('WalkArray', val);
+                if (arrOk) {
+                  val = array;
+                } else {
+                  break;
+                }
+              }
+              const newVal = Array.from(val, v => this.walk(v, transformBlockFn));
               changed |= !shallowEqual(val, newVal);
               block[key] = newVal;
             } else if (val && val.type) {

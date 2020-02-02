@@ -49,6 +49,10 @@ class Transformer {
     fns.push(fn);
   }
 
+  static noopHook (ctx, value) {
+    return [false, value];
+  }
+
   transformBlock(ctx, block) {
     while (block && block.type) {
       // while true;
