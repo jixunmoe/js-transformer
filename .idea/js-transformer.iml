@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/utils/__test__" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/mixin/__test__" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/sigMatch/__test__" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/local" />
     </content>
     <orderEntry type="inheritedJdk" />
