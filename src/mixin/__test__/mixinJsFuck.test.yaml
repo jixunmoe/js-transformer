@@ -5,14 +5,33 @@
       expected: |-
         "G"
 
-    - name: NaN + Date => "M"
+    - name: true + Date => "M"
       source: |-
         (true + Date())["30"]
       expected: |-
         "M"
 
-    - name: NaN + Date => "T"
+    - name: false + Date => "T"
       source: |-
         (false + Date())["30"]
       expected: |-
         "T"
+
+- - transformFromLocationString
+  - - name: location[0] => "h"
+      source: |-
+        ([] + location)[0]
+      expected: |-
+        "h"
+
+    - name: location[3] => "p"
+      source: |-
+        ([] + location)[3]
+      expected: |-
+        "p"
+
+    - name: location[6] => "/"
+      source: |-
+        ([] + location)[6]
+      expected: |-
+        "/"

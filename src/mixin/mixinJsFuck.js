@@ -1,6 +1,10 @@
 const mixinSimple = require('./mixinSimple');
 
+// JSFuck:      http://www.jsfuck.com/
+// Hieroglyphy: http://patriciopalladino.com/files/hieroglyphy/
+
 const sigNewDate = require('./sig/jsfuck/sigNewDate');
+const sigLocationChar = require('./sig/jsfuck/sigLocationChar');
 const sigGetCharFromDateString = require('./sig/jsfuck/sigGetCharFromDateString');
 
 const B = require('../utils/builder');
@@ -16,6 +20,7 @@ mixinJsFuck.setup = function (transformer) {
 
   transformer.hook('castToLiteral', castNewDateToValue);
   transformer.hook('MemberExpression', transformDateStringGMT);
+  transformer.hook('MemberExpression', transformFromLocationString);
 };
 
 function castNewDateToValue(ctx, block) {
@@ -54,9 +59,28 @@ function transformDateStringGMT(ctx, block) {
   return block;
 }
 
+const locationCharMap = new Map([
+  [0, 'h'],
+  [3, 'p'],
+  [6, '/'],
+]);
+
+function transformFromLocationString(ctx, block) {
+  const results = {};
+  if (sigMatch(block, sigLocationChar, results)) {
+    const idx = parseInt(results.idx.match, 10);
+    if (locationCharMap.has(idx)) {
+      return B.createConstant(locationCharMap.get(idx));
+    }
+  }
+
+  return block;
+}
+
 Object.assign(mixinJsFuck, {
   castNewDateToValue,
   transformDateStringGMT,
+  transformFromLocationString,
 });
 
 
