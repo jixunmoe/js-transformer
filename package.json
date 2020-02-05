@@ -4,7 +4,7 @@
   "description": "Yet Another JavaScript AST Transformer using recast.",
   "main": "src/AstTransformer.js",
   "scripts": {
-    "test": "tape src/**/*.test.js",
+    "test": "node node_modules/tape/bin/tape -- src/**/*.test.js",
     "pub": "sh publish.sh"
   },
   "author": "Jixun",
@@ -12,7 +12,7 @@
   "devDependencies": {
     "@types/tape": "^4.2.33",
     "js-yaml": "^3.13.1",
-    "tape": "npm:@jixun/tape@^4.13.1-patch1"
+    "tape": "npm:@jixun/tape@^4.13.1-patch3"
   },
   "dependencies": {
     "recast": "^0.18.5"
