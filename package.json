@@ -1,15 +1,16 @@
 {
   "name": "@jixun/js-transformer",
-  "version": "1.0.0-alpha2",
+  "version": "1.0.0-alpha3",
   "description": "Yet Another JavaScript AST Transformer using recast.",
   "main": "src/AstTransformer.js",
   "scripts": {
-    "test": "node node_modules/tape/bin/tape -- src/**/*.test.js",
+    "test": "tape -- src/**/*.test.js",
     "pub": "sh publish.sh"
   },
   "author": "Jixun",
   "license": "MIT",
   "devDependencies": {
+    "@jixun/tape-bin": "^1.0.0",
     "@types/tape": "^4.2.33",
     "js-yaml": "^3.13.1",
     "tape": "npm:@jixun/tape@^4.13.1-patch3"
