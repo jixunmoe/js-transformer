@@ -15,6 +15,13 @@
       expected: |-
         function() { return new Date(2011) }
 
+- - transform1OpExp
+  - - name: void 0 should return undefined.
+      source: |-
+        void 0
+      expected: |-
+        undefined
+
 - - transformNewFunctionToFunction
   - - name: simple "new Function" extraction.
       source: |-
