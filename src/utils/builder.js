@@ -11,6 +11,11 @@ function createConstant(value) {
   }
 
   return B.literal(value);
+  // const result = B.literal(value);
+  // if (typeof result.value === 'string') {
+  //   result.raw = result.raw.replace(/[\u2000-\u201f]/g, z => '\\u' + z.charCodeAt(0).toString(16));
+  // }
+  // return result;
 }
 
 /**
@@ -43,6 +48,7 @@ function addComment(block, comment) {
 module.exports = {
   ...B,
   addComment,
+  codeToBlocks,
   createConstant,
   createIifeFromString,
   createFunctionFromString,

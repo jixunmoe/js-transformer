@@ -80,14 +80,19 @@ const sigMatches = [{
   },
   match: {
     $sig: {
-      name: 'unused',
+      name: 'result',
       $or: [
         {b: 2},
         {a: 1},
       ]
     }
   },
-  results: { },
+  results: {
+    result: {
+      match: { b: 2 },
+      parent: null,
+    }
+  },
 }, {
   name: '$or without a match',
   success: false,
@@ -114,7 +119,7 @@ const sigMatches = [{
   },
   match: {
     $sig: {
-      name: 'name',
+      name: 'root',
       $or: [
         {a: 1},
         {
@@ -128,6 +133,7 @@ const sigMatches = [{
     }
   },
   results: {
+    root: { match: { b: { c: 1 } }, parent: null },
     match_b: {
       match: {
         c: 1
@@ -192,12 +198,12 @@ const sigMatches = [{
 }];
 
 test('SigMatch with $sig', t => {
-  t.plan(sigMatches.length * 2);
-
   sigMatches.forEach(({name, object, match, success, results}) => {
     const actualResult = {};
     t.equal(SigMatch.sigMatch(object, match, actualResult), success, 'test: ' + name);
-    t.deepEqual(actualResult, results, 'result: ' + name);
+    if (success) {
+      t.deepEqual(actualResult, results, 'result: ' + name);
+    }
   });
 
   t.end();

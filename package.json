@@ -1,6 +1,6 @@
 {
   "name": "@jixun/js-transformer",
-  "version": "1.0.0-alpha4",
+  "version": "1.0.0-alpha6",
   "description": "Yet Another JavaScript AST Transformer using recast.",
   "main": "src/AstTransformer.js",
   "scripts": {

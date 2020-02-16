@@ -25,6 +25,13 @@ class SigMatch {
   }
 
   static matchSigBlock(toCheck, sigBlock, results, parent) {
+    if (sigBlock.name) {
+      results[sigBlock.name] = {
+        match: toCheck,
+        parent: parent,
+      };
+    }
+
     if (Array.isArray(sigBlock.partialArray)) {
       return SigMatch.matchPartialArray(toCheck, sigBlock, results);
     }
@@ -34,23 +41,10 @@ class SigMatch {
     }
 
     if (sigBlock.match) {
-      if (SigMatch.sigMatch(toCheck, sigBlock.match, results)) {
-        if (sigBlock.name) {
-          results[sigBlock.name] = {
-            match: toCheck,
-            parent: parent,
-          };
-        }
-        return true;
-      }
-      return false;
+      return SigMatch.sigMatch(toCheck, sigBlock.match, results);
     }
 
     if (sigBlock.name) {
-      results[sigBlock.name] = {
-        match: toCheck,
-        parent: parent,
-      };
       return true;
     }
 

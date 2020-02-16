@@ -23,6 +23,7 @@ class AstTransformer extends Transformer {
     this.ast.program = this.walk(this.ast.program, this.transformBlock);
   }
 
+  // FIXME: Nested update will not trigger parent to re-run the rule...
   /**
    * Walk through the block.
    * @param {Object} block to transform
@@ -32,7 +33,7 @@ class AstTransformer extends Transformer {
   walk(block, transformBlockFn) {
     let changed = 1;
 
-    while(changed) {
+    while (changed) {
       changed = 0;
 
       if (block instanceof Transformer) {
@@ -53,13 +54,14 @@ class AstTransformer extends Transformer {
 
             if (Array.isArray(val)) {
               while (true) {
-                const [arrOk, array] = this.iterHooks('WalkArray', val);
-                if (arrOk) {
+                const [arrConverted, array] = this.iterHooks('WalkArray', val);
+                if (arrConverted) {
                   val = array;
                 } else {
                   break;
                 }
               }
+
               const newVal = Array.from(val, v => this.walk(v, transformBlockFn));
               changed |= !shallowEqual(val, newVal);
               block[key] = newVal;
@@ -101,6 +103,7 @@ class AstTransformer extends Transformer {
     return null;
   };
 }
+
 AstTransformer.ignoreKey = ['loc', 'type', 'comments', 'original'];
 
 module.exports = AstTransformer;

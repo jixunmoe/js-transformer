@@ -29,3 +29,9 @@
       expected: |-
         function() { alert(1);return 1 }
 
+- - transformAllowedSandboxFunctionCall
+  - - name: parseInt('1a', 0x10)
+      source: |-
+        parseInt('1a', 0x10)
+      expected: |-
+        26

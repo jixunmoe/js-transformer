@@ -16,12 +16,12 @@ class Transformer {
   mixin(...mixins) {
     mixins.forEach(mixin => {
       const id = mixin.name;
-      if (this.mixed.has(id)) {
+      if (this.mixed.has(mixin)) {
         return;
       }
-      this.mixed.add(id);
+      this.mixed.add(mixin);
       if (!mixin.setup) {
-        throw new Error('Transformer::mixin: mixin does not contain `setup` method.');
+        throw new Error('Transformer::mixin: mixin ' + id + '  does not contain `setup` method.');
       }
       mixin.setup(this);
     });

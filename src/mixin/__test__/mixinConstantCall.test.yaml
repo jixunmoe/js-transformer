@@ -1,0 +1,18 @@
+- - castStringFromCharCode
+  - - name: String.fromCodePoint(0x1F303) -> 🌃
+      source: |-
+        String.fromCodePoint(0x1F303)
+      expected: |-
+        "🌃"
+    - name: String.fromCharCode('0x123') -> ģ
+      source: |-
+        String.fromCharCode('0x123')
+      expected: |-
+        "ģ"
+
+- - transformLiteralMethodCall
+  - - name: get '0'.charCodeAt(0x00) -> 0x30
+      source: |-
+        '0'.charCodeAt(0x00)
+      expected: |-
+        48

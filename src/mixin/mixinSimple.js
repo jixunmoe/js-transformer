@@ -12,6 +12,8 @@ const getIn = require('../utils/getIn');
 
 const sigIifeReturn = require('./sig/simp/sigIifeReturn');
 const sigNewFunction = require('./sig/simp/sigNewFunction');
+const sigGlobalFnCall = require('./sig/simp/sigGlobalFnCall');
+const sigEvalStatements = require('./sig/simp/sigEvalStatements');
 const sigLitToStringCall = require('./sig/simp/sigLitToStringCall');
 const sigStaticArrayConcat = require('./sig/simp/sigStaticArrayConcat');
 const sigArrayConstructorCallToFunction = require('./sig/simp/sigArrayConstructorCallToFunction');
@@ -42,6 +44,8 @@ mixinSimple.setup = function (transformer) {
   transformer.hook("LogicalExpression", transform2OpExp);
   transformer.hook("UnaryExpression", transform1OpExp);
   transformer.hook("UpdateExpression", transform1OpExp);
+
+  transformer.hook('WalkArray', expandEvalString);
 };
 
 function transformStaticConcatExpression(ctx, block) {
@@ -64,24 +68,33 @@ function transformStaticConcatExpression(ctx, block) {
 const allowedSandboxFunction = new Map([
   ['escape', escape],
   ['unescape', unescape],
+  ['encodeURI', encodeURI],
+  ['decodeURI', decodeURI],
+  ['encodeURIComponent', encodeURIComponent],
+  ['decodeURIComponent', decodeURIComponent],
+  ['parseInt', parseInt],
 ]);
 
 function transformAllowedSandboxFunctionCall(ctx, block) {
-  const calleeType = getBlockType(block.callee);
-  if (calleeType === 'Identifier') {
-    const fn = block.callee.name;
-    if (allowedSandboxFunction.has(fn)) {
-      const [ok, args] = ctx.castToLiteral(block.arguments);
-      if (ok) {
-        const result = allowedSandboxFunction.get(fn)(...args);
+  const result = {};
+  if (sigMatch(block, sigGlobalFnCall, result)) {
+    const fnName = result.name.match;
+
+    if (allowedSandboxFunction.has(fnName)) {
+      const args = ctx.castAllToLiteral(result.args.match);
+      if (args) {
+        const value = allowedSandboxFunction.get(fnName).apply(null, args);
         try {
-          return B.createConstant(result);
-        } catch (err) {
+          return B.createConstant(value);
+        } catch (e) {
           // pass
         }
       }
     }
-  } else if (calleeType === 'MemberExpression') {
+  }
+
+  // TODO: Refactor this...
+  if (getBlockType(block.callee) === 'MemberExpression') {
     // See if we can ask castToLiteral to get the function...
     const [objOk, obj] = ctx.castToLiteral(block.callee.object);
     const [propOk, prop] = ctx.getPropertyName(block.callee);
@@ -163,8 +176,7 @@ function transformArrayConstructorCallToFunction(ctx, block) {
 function transformStringAccessToDotAccess(ctx, block) {
   // a['xyz'] => a.xyz
   if (isLiteral(block.property) && isSafeString(block.property.value)) {
-    block.computed = false;
-    block.property = B.identifier(block.property.value);
+    return B.memberExpression(block.object, B.identifier(block.property.value), false);
   }
   return block;
 }
@@ -214,6 +226,22 @@ function transform1OpExp(ctx, block) {
   return block;
 }
 
+function expandEvalString(ctx, block) {
+  for (const [i, item] of block.entries()) {
+    const result = {};
+    if (sigMatch(item, sigEvalStatements, result)) {
+      const code = String(result.code.match);
+      const statements = B.codeToBlocks(code);
+      return [true, [
+        ...block.slice(0, i),
+        ...statements,
+        ...block.slice(i + 1),
+      ]];
+    }
+  }
+
+  return [false];
+}
 
 Object.assign(mixinSimple, {
   staticOp1Pre: opCache('a', op => `return ${op} a`),
@@ -228,6 +256,7 @@ Object.assign(mixinSimple, {
   transformAllowedSandboxFunctionCall,
   transformArrayConstructorCallToFunction,
   transformIifeReturnExpression,
+  expandEvalString,
 });
 
 module.exports = mixinSimple;
