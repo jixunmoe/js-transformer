@@ -12,7 +12,7 @@
   "devDependencies": {
     "@jixun/tape-bin": "^1.0.0",
     "@types/tape": "^4.2.33",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^4.2.0",
     "tape": "npm:@jixun/tape@^4.13.1-patch3"
   },
   "dependencies": {
